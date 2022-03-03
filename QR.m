@@ -18,3 +18,34 @@ function a = fattQR(a)
         a(i:m,i+1:n) = a(i:m,i+1:n) - (beta*[1;a(i+1:m,i)])*([1;a(i+1:m,i)]'*a(i:m,i+1:n));
     end
 end
+% 
+% function g = QTb(a,b)
+%     g = b;
+%     [m,n]=size(a);
+%     for i = 1:n
+%         v=[1;a(i+1:m,i)];
+%         beta = 2/(v'*v);
+%         g(i:m) = (eye(m-i+1)-beta*v*v')*g(i:m);
+%     end
+% end
+function g = QTb(a,b)
+    [m,n]=size(a);
+    g = b;
+    %Hn.....H1b
+    for i = 1:n
+        v=[1;a(i+1:m,i)];
+        beta = 2/(v'*v);
+        g(i:m) = g(i:m) - (beta * v) * (v'*g(i:m));
+        %ricorda che Hi = eye(m-i+1) - beta*vi*vi'
+    end
+end
+
+function x = minsquaresolverQR(a,g)
+    [m,n] = size(a);
+    x = g(1:n);
+    %Rhat x = g1
+    for i = n:-1:1
+        x(i) = x(i)/a(i,i);
+        x(1:i-1) = x(1:i-1) - a(1:i-1,i)*x(i);
+    end
+end
