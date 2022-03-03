@@ -117,6 +117,7 @@ end
 
 function [x,i] = newton(f,f1,x0,tol,maxiter)
 % [x,i] = newton(f,f1,x0,tol,maxiter)
+% 
 % la seguente funzione implementa il metodo di newton per 
 % ricercare gli zeri di una funzione
 % INPUT:
@@ -142,6 +143,7 @@ end
 
 function [x,i] = secanti(f,x0,x1,tol,maxiter)
 % x = secanti(f,f1,x0,tol)
+% 
 % la funzione implementa il metdo delle secanti
 % per la ricerca degli zeri di una funzione
 % INPUT:
@@ -172,6 +174,7 @@ end
 
 function [x,i] = steffensen(f,x0,tol,maxiter)
 % x = steffensen(f,f1,x0,tol,maxiter)
+% 
 % la funzione implementa il metdo di Steffensen
 % per la ricerca degli zeri di una funzione
 % INPUT:
@@ -197,6 +200,7 @@ end
 
 function x = radice(x)
 % x = radice(x)
+% 
 % la funziona calcola la radice di un numero mediante le operazioni elementari
 % INPUT:
 %     x - il numero di cui si vuole trovare la radice
@@ -244,6 +248,7 @@ end
 
 function x = mialu(A,b)
 % x = mialu(A,b)
+% 
 % La funzione calcola la soluzione del sistema lineare Ax=b 
 % mediante il metodo della fattorizzazione LU con pivoting parziale
 % Input:
