@@ -263,11 +263,10 @@ function x = mialu(A,b)
     if col ~= 1 || row ~= n, error("Il vettore dei termini noti non ha " + ...
                             "dimensioni adeguate, errore!"); end
     for i = 1:n-1
-        if A(i,i) == 0, error("Matrice singolare");end
+        if A(i,i) == 0, disp("indice " + i + " valore " + A(i,i)); error("Matrice singolare");end
         A(i+1:n, i) = A(i+1:n, i)/A(i,i); % Gauss
         A(i+1:n,i+1:n) = A(i+1:n,i+1:n) - A(i+1:n, i)*A(i, i+1:n);
     end
-    
     x = b;
     %Ly=b
     for i = 2:n
