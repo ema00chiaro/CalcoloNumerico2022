@@ -88,14 +88,14 @@
 % disp(x);
 % disp(i);
 
-[A,b] = linsis(10,1);
-disp(mialu(A,b));
-[A,b] = linsis(10,10);
-disp(mialu(A,b));
-[A,b] = linsis(10,1,1);
-disp(mialdl(A,b));
-[A,b] = linsis(10,10,1);
-disp(mialdl(A,b));
+% [A,b] = linsis(10,1);
+% disp(mialu(A,b));
+% [A,b] = linsis(10,10);
+% disp(mialu(A,b));
+% [A,b] = linsis(10,1,1);
+% disp(mialdl(A,b));
+% [A,b] = linsis(10,10,1);
+% disp(mialdl(A,b));
 
 
 disp("ciao");
