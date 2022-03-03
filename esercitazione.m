@@ -303,7 +303,7 @@ function x = mialdl(A,b)
         %FIXME da rivedere questa cosa qua
         v = diag(diag(A(1:j-1,1:j-1)))*A(j,1:j-1)';
         A(j,j) = A(j,j) - A(j,1:j-1)*v;
-        if a(j,j) <= 0, error("non ha diagonale positiva");end
+        if A(j,j) <= 0, error("Trovato un elemento negativo sulla diagonale!");end
         A(j+1:n,j) = (A(j+1:n,j) - A(j+1:n,1:j-1)*v)/A(j,j);
     end
     
