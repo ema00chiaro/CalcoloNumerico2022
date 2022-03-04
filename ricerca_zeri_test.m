@@ -173,7 +173,9 @@ function [x,i] = steffensen(f,x0,tol,maxiter)
     x_old = x0;
     for i = 0:maxiter
         fx_old = feval(f,x_old);
-        x = x_old-(fx_old^2)/(feval(f,x_old+fx_old)-fx_old);
+        diff = feval(f,x_old+fx_old) - fx_old;
+%         if diff == 0, diff = eps; end
+        x = x_old-(fx_old^2)/(diff);
         if abs(x-x_old) <= tol*(1+abs(x_old)), return; end
         x_old = x;
     end
