@@ -16,7 +16,7 @@ function x = radice(x)
     
     sq_old = x;
     sq = (1/2)*(sq_old+(x/sq_old)); % x/2 + 1/2
-    while ( abs((sq - sq_old)/sq_old) > eps)
+    while ( abs(sq - sq_old) > eps)
         sq_old = sq;
         sq = (1/2)*(sq_old+(x/sq_old));
     end

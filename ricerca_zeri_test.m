@@ -1,45 +1,45 @@
-f = @functionToPass;
-f1 = @functionToPassDerivata;
-disp("newton");
-[x,i] = newton(f,f1,1,10^-3);
-disp(x);
-disp(i);
-[x,i] = newton(f,f1,1,10^-6);
-disp(x);
-disp(i);
-[x,i] = newton(f,f1,1,10^-9);
-disp(x);
-disp(i);
-[x,i] = newton(f,f1,1,10^-12);
-disp(x);
-disp(i);
-disp("secanti");
-[x,i] = secanti(f,1,0.99,10^-3);
-disp(x);
-disp(i);
-[x,i] = secanti(f,1,0.99,10^-6);
-disp(x);
-disp(i);
-[x,i] = secanti(f,1,0.99,10^-9);
-disp(x);
-disp(i);
-[x,i] = secanti(f,1,0.99,10^-12);
-disp(x);
-disp(i);
-disp("steffensen");
-[x,i] = steffensen(f,1,10^-3);
-disp(x);
-disp(i);
-[x,i] = steffensen(f,1,10^-6);
-disp(x);
-disp(i);
-[x,i] = steffensen(f,1,10^-9);
-disp(x);
-disp(i);
-[x,i] = steffensen(f,1,10^-12);
-disp(x);
-disp(i);
-
+% f = @functionToPass;
+% f1 = @functionToPassDerivata;
+% disp("newton");
+% [x,i] = newton(f,f1,1,10^-3);
+% disp(x);
+% disp(i);
+% [x,i] = newton(f,f1,1,10^-6);
+% disp(x);
+% disp(i);
+% [x,i] = newton(f,f1,1,10^-9);
+% disp(x);
+% disp(i);
+% [x,i] = newton(f,f1,1,10^-12);
+% disp(x);
+% disp(i);
+% disp("secanti");
+% [x,i] = secanti(f,1,0.99,10^-3);
+% disp(x);
+% disp(i);
+% [x,i] = secanti(f,1,0.99,10^-6);
+% disp(x);
+% disp(i);
+% [x,i] = secanti(f,1,0.99,10^-9);
+% disp(x);
+% disp(i);
+% [x,i] = secanti(f,1,0.99,10^-12);
+% disp(x);
+% disp(i);
+% disp("steffensen");
+% [x,i] = steffensen(f,1,10^-3);
+% disp(x);
+% disp(i);
+% [x,i] = steffensen(f,1,10^-6);
+% disp(x);
+% disp(i);
+% [x,i] = steffensen(f,1,10^-9);
+% disp(x);
+% disp(i);
+% [x,i] = steffensen(f,1,10^-12);
+% disp(x);
+% disp(i);
+% 
 f = @functionToPass2;
 f1 = @functionToPass2Derivata;
 disp("newton2");
@@ -174,11 +174,12 @@ function [x,i] = steffensen(f,x0,tol,maxiter)
     for i = 0:maxiter
         fx_old = feval(f,x_old);
         diff = feval(f,x_old+fx_old) - fx_old;
-%         if diff == 0, diff = eps; end
+        if diff == 0, error("Errore: Divisone per zero! "); end
         x = x_old-(fx_old^2)/(diff);
         if abs(x-x_old) <= tol*(1+abs(x_old)), return; end
         x_old = x;
     end
     if(i == maxiter), error("Soluzione non trovata. " + ...
             "Numero massimo di iterazioni (" + i +") raggiunto!"); end
+    return
 end
