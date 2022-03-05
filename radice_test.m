@@ -1,4 +1,5 @@
-testRadice();
+% testRadice();
+disp(radice2(10));
 
 function x = radice(x)
 % x = radice(x)
@@ -9,16 +10,38 @@ function x = radice(x)
 % OUTPUT:
 %     x - la radice del numero
     if x < 0
-        error("errore: numero negativo, impossibile fare la radice!"); 
+        error("errore: numero negativo, impossibile calcolare la radice!"); 
     end
     if (x == 0 || x == 1), return, end
-    sq = x;
-    sq_old = 0;
-    i = 0;
-    while (abs(sq-sq_old) > eps)
-        i = i+1;
+    
+    sq_old = x;
+    sq = (1/2)*(sq_old+(x/sq_old)); % x/2 + 1/2
+    while ( abs((sq - sq_old)/sq_old) > eps)
         sq_old = sq;
         sq = (1/2)*(sq_old+(x/sq_old));
+    end
+    x = sq;
+    return
+end
+
+function x = radice2(x)
+% x = radice(x)
+% 
+% la funziona calcola la radice di un numero mediante le operazioni elementari
+% INPUT:
+%     x - il numero di cui si vuole trovare la radice
+% OUTPUT:
+%     x - la radice del numero
+    if x < 0
+        error("errore: numero negativo, impossibile calcolare la radice!"); 
+    end
+    if (x == 0 || x == 1), return, end
+    
+    sq = x;
+    while ( sq*sq ~= x)
+        sq_old = sq;
+        sq = (1/2)*(sq+(x/sq));
+        if abs(sq_old - sq) == 0, break; end
     end
     x = sq;
     return
@@ -35,8 +58,8 @@ function testRadice()
         i = i+1;
         mia = radice(x);
         vera = sqrt(x);
-        disp("ITERAZIONE " + i);
         if (abs(vera - mia) > eps)
+            disp("ITERAZIONE " + i+ " numero: " + x);
             err = err + 1; 
             disp("vera: "+ vera);
             disp("mia: "+ mia);
