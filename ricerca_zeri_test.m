@@ -175,7 +175,7 @@ function [x,i] = steffensen(f,x0,tol,maxiter)
     for i = 0:maxiter
         fx_old = feval(f,x_old);
         diff = feval(f,x_old+fx_old) - fx_old;
-        if diff == 0, error("Errore: Divisone per zero! "); end
+        if diff == 0, error("Errore: Divisone per zero! -Iterazione: " + (i+1)); end
         x = x_old-(fx_old^2)/diff;
         if abs(x-x_old) <= tol*(1+abs(x_old)), return, end
         x_old = x;
@@ -183,3 +183,4 @@ function [x,i] = steffensen(f,x0,tol,maxiter)
     if(i == maxiter), error("Soluzione non trovata. " + ...
             "Numero massimo di iterazioni (" + i +") raggiunto!"); end
 end
+
