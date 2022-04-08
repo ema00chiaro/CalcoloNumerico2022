@@ -1,11 +1,17 @@
 testRadice();
 % disp(radice(-2));
+% x=logspace(-10,10,20);
+% for i = 1:20
+%     disp("ITERAZIONE " + i);
+%     disp("vera: "+ radice(x(i)));
+%     disp("mia: "+ sqrt(x(i)));
+% end
 
 function x = radice(x)
 % x = radice(x)
 % 
 % la funziona calcola la radice di un numero 
-% mediante le operazioni elementari
+% mediante le operazioni algebriche elementari
 % INPUT:
 %     x - il numero di cui si vuole trovare la radice
 % OUTPUT:
@@ -27,27 +33,23 @@ function x = radice(x)
 end
 
 function testRadice()
-    inf = 1e-10;
-    sup = 1e10;
-    x = inf;
+    x=logspace(-10,10,20);
     err = 0;
-    i = 0;
-    while x <= sup
-        i = i+1;
-        mia = radice(x);
-        vera = sqrt(x);
-%         disp("vera: "+ vera);
-%         disp("mia: "+ mia);
-%         disp(abs((vera-mia)/vera));
-        if (abs((vera-mia)/vera) > eps)
-            disp("ITERAZIONE " + i+ " numero: " + x);
+    for i = 1:20
+        mia = radice(x(i));
+        vera = sqrt(x(i));
+        errAss = abs((vera-mia));
+        errRel = errAss/vera;
+        disp("ITERAZIONE " + i);
+        disp("num: " + x(i));
+%         disp ("err ass: " + errAss);
+        disp ("err rel: " + errRel);
+        if (errRel > eps)
             err = err + 1; 
-            disp("vera: "+ vera + "diff num rad: " + abs(x-vera^2));
-            disp("mia: "+ mia + "diff num rad: " + abs(x-mia^2));
-            disp ("diffe: " + abs(mia^2 - vera^2));
+            disp("vera: "+ vera + " diff num rad: " + abs(x(i)-vera^2));
+            disp("mia: "+ mia + " diff num rad: " + abs(x(i)-mia^2));
             disp("QUI QUALCOSA NON VA!");
         end
-        x = x*10;
     end
     disp("i = " + i);
     disp("errori totali: " + err)
