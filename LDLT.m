@@ -3,6 +3,16 @@ disp(mialdl(A,b));
 [A,b] = linsis(10,10,1);
 disp(mialdl(A,b));
 
+% A = rand(5,5)*10;
+% A = A'*A; %serve per renderla sdp
+% disp(A);
+% b = rand(5,1)*10;
+% disp(b);
+% disp("mat") 
+% disp(A\b);
+% disp("mia") 
+% disp(mialdl(A,b));
+
 function x = mialdl(A,b)
 % x = mialu(A,b)
 % 
