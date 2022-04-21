@@ -23,8 +23,7 @@ function x = mialdl(A,b)
     if A(1,1) <= 0, error("Matrice non sdp");end
     A(2:n,1) = A(2:n,1)/A(1,1);
     for j = 2:n
-        %FIXME da rivedere questa cosa qua
-        v = diag(diag(A(1:j-1,1:j-1)))*A(j,1:j-1)';
+        v = A(j,1:j-1)'.*diag(A(1:j-1,1:j-1));
         A(j,j) = A(j,j) - A(j,1:j-1)*v;
         if A(j,j) <= 0, error("Trovato un elemento negativo sulla diagonale!");end
         A(j+1:n,j) = (A(j+1:n,j) - A(j+1:n,1:j-1)*v)/A(j,j);
