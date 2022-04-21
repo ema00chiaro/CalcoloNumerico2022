@@ -35,7 +35,7 @@ function [x,nr] = miaqr(A,b)
     
     %calcolo g = Q'b
     g = b;
-    %Hn.....H1b
+    %Hn.....H1 * b
     for i = 1:n
         v=[1;A(i+1:m,i)];
         beta = 2/(v'*v);
