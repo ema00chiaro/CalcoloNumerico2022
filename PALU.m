@@ -42,3 +42,32 @@ function x = solvePALU(a,b,pos)
     end
     return
 end
+
+function x = palu(a,b)
+    n = size(a);
+    pos = (1:n)';
+    for i = 1:n-1
+        %prendo il massimo della colonna in valore assoluto
+        [mi,ki] = max(abs(a(i:n,i)));
+        if mi == 0, error("matrice singolare");end
+        ki = ki+i-1;
+        %scambio le righe
+        pos([i,ki])= pos([ki,i]);
+        a([i,ki],:)=a([ki,i],:);
+        %metto la colonna da i+1 tutta a zero figuaratamente, metto in quella colonna il vettore di gauss
+        a(i+1:n,i) = a(i+1:n,i)/a(i,i);
+        %Ai+1 = Ai-gi*eiT*Ai
+        a(i+1:n,i+1:n) = a(i+1:n,i+1:n) - a(i+1:n,i)*a(i,i+1:n);
+    end
+
+    x = b(pos);
+    %Ly=b(pos)
+    for i = 2:n
+        x(i:n) = x(i:n) - a(i:n,i-1)*x(i-1);
+    end
+    %Ux=y
+    for i = n:-1:1
+        x(i) = x(i)/a(i,i);
+        x(1:i-1) = x(1:i-1) - a(1:i-1,i)*x(i);
+    end
+end
