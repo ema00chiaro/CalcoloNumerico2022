@@ -9,10 +9,10 @@ function [x,nr] = miaqr(A,b)
 % 
 % calcola la soluzione nel senso dei minimi 
 % quadrati del sistema lineare Ax=b
-% INPUT:
+% Input:
 %     A - la matrice del sistema m x n con m >= n = rank(A)
 %     b - il vettore dei termini noti di lunghezza m
-% OUPUT:
+% Output:
 %     x - la soluzione nel senso dei minimi quadrati
 %     nr - la norma del corrispondente vettore residuo
     [m,n]=size(A);

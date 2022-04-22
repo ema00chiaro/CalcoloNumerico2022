@@ -1,17 +1,17 @@
 % [A,b] = linsis(10,1);
 % disp(mialu(A,b));
-[A,b] = linsis(10,10);
-disp(cond(A));
-disp(mialu(A,b));
-
-% A = rand(5,5)*100;
-% disp(A);
-% b = rand(5,1)*10;
-% disp(b);
-% disp("mat") 
-% disp(A\b);
-% disp("mia") 
+% [A,b] = linsis(10,10);
+% disp(cond(A));
 % disp(mialu(A,b));
+
+A = rand(5,5)*100;
+disp(A);
+b = rand(5,1)*10;
+disp(b);
+disp("mat") 
+disp(A\b);
+disp("mia") 
+disp(mialu(A,b));
 
 function x = mialu(A,b)
 % x = mialu(A,b)
@@ -27,10 +27,12 @@ function x = mialu(A,b)
     if row ~= col, error("Matrice non quadrata, errore!"); end
     n = row;
     [row,col]= size(b);
-    if col ~= 1 || row ~= n, error("Il vettore dei termini noti non ha " + ...
-                            "dimensioni adeguate, errore!"); end
+    if col ~= 1 || row ~= n
+        error("Il vettore dei termini noti " + ...
+            "non ha dimensioni adeguate, errore!");
+    end
     for i = 1:n-1
-        if A(i,i) == 0, disp("indice " + i + " valore " + A(i,i)); error("Matrice singolare");end
+        if A(i,i) == 0, error("Matrice singolare"); end
         A(i+1:n, i) = A(i+1:n, i)/A(i,i); % Gauss
         A(i+1:n,i+1:n) = A(i+1:n,i+1:n) - A(i+1:n, i)*A(i, i+1:n);
     end
