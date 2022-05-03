@@ -1,8 +1,18 @@
-a = [1,1,1;2,10,5;1,1,1;6,7,4];
-b=[3;5;9;6];
-[x,nr] = miaqr(a,b);
-disp(x);
-disp(nr);
+% a = [1,1,1;2,10,5;1,1,1;6,7,4];
+% b=[3;5;9;6];
+% [x,nr] = miaqr(a,b);
+% disp(x);
+% disp(nr);
+% A = [ 1 3 2; 3 5 4; 5 7 6; 3 6 4; 1 4 2 ];
+% b = [ 15 28 41 33 22 ]';
+% D = diag(1:5);
+% [x,nr] = miaqr(A,b);
+% disp(x);
+% disp(nr);
+% [x,nr] = miaqr(D*A,D*b);
+% disp(x);
+% disp(nr);
+
 
 function [x,nr] = miaqr(A,b)
 % [x,nr] = miaqr(A,b)
@@ -79,3 +89,5 @@ function [A,b] = linsis(n,k,simme)
     b = A*x;
     return
 end
+
+
