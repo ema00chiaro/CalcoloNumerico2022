@@ -1,14 +1,12 @@
-% x = [1,1,2,2,3,3];
-% y = [11,10,23,22,34,33];
-% disp(dividif(x,y));
-disp(dividifHermite(x,y))
+x = [1,2,2,3];
+y = [11,10,23,22,34,33];
+disp(containsDuplicates(x))
 
 function yq = Lagrange(x,y,xq)
     n = length(x);
     if n ~= size(y), error("dati inconsistenti"); end
-    %DA FARE
-    controllo(xq)
-    %-------
+    if containsDuplicates(xq), error("le ascisse non " + ...
+            "sono distinte fra loro"); end
     yq = zeros(length(xq));
     for i = 1:n
         yq = yq + y(i)*Lin(x,xq,i);
@@ -27,8 +25,15 @@ function L = Lin(x,xq,i)
     return
 end
 
+function containsDuplicates = containsDuplicates(x)
+    containsDuplicates = length(x) ~= length(unique(x));
+    return
+end
+
 function yq = Newton(x,y,xq)
     if length(x) ~= length(y), error("dati inconsistenti"); end
+    if containsDuplicates(xq), error("le ascisse non " + ...
+            "sono distinte fra loro"); end
     df = dividif(x,y);
     n = length(df);
     yq = ones(length(xq))*df(n);
@@ -51,6 +56,8 @@ end
 
 function yq = Hermite(x,y,xq)
     if length(x) ~= length(y), error("dati inconsistenti"); end
+    if containsDuplicates(xq), error("le ascisse non " + ...
+            "sono distinte fra loro"); end
     df = dividifHermite(x,y);
     n = (length(df)-2)/2;
     yq = ones(length(xq))*df(2*n+2);
