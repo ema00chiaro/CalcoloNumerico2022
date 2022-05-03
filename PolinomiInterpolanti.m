@@ -55,6 +55,7 @@ function df = dividif(x,y)
 end
 
 function yq = Hermite(x,y,xq)
+    %controlli vari
     if length(x) ~= length(y), error("dati inconsistenti"); end
     xapp = x(1:2:length(x));
     if containsDuplicates(xapp), error("le ascisse non " + ...
@@ -66,6 +67,7 @@ function yq = Hermite(x,y,xq)
     disp(xapp2);
     if ~isequal(xapp,xapp2) error("Le ascisse raddoppiate non coincidono " + ...
             "o non sono scritte nell'ordine x0,x0,x1,x1... ecc"); end
+    %fine controlli
     df = dividifHermite(x,y);
     n = (length(df)-2)/2;
     yq = ones(length(xq))*df(2*n+2);
