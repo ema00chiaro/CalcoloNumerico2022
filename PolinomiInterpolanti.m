@@ -1,4 +1,4 @@
-x = [1,1,2,2,3,3];
+x = [1,1,1,2,3,3];
 y = [11,10,23,22,34,33];
 disp(Hermite(x,y,[5]));
 
@@ -59,12 +59,14 @@ function yq = Hermite(x,y,xq)
     if length(x) ~= length(y), error("dati inconsistenti"); end
     xapp = x(1:2:length(x));
     if containsDuplicates(xapp), error("le ascisse non " + ...
-            "sono distinte fra loro"); end
+            "sono distinte fra loro" + ...
+            " o non sono scritte nell'ordine x0,x0,x1,x1... ecc"); end
     xapp2 = x(2:2:length(x));
     if containsDuplicates(xapp2), error("le ascisse non " + ...
-            "sono distinte fra loro"); end
+            "sono distinte fra loro o" + ...
+            " non sono scritte nell'ordine x0,x0,x1,x1... ecc"); end
     if ~isequal(xapp,xapp2) error("Le ascisse raddoppiate non coincidono " + ...
-            "o non sono scritte nell'ordine x0,x0,x1,x1... ecc"); end
+            " o non sono scritte nell'ordine x0,x0,x1,x1... ecc"); end
     %fine controlli
     df = dividifHermite(x,y);
     n = (length(df)-2)/2;
