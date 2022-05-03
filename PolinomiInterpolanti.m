@@ -1,6 +1,6 @@
-x = [1,2,2,3];
+x = [1,1,2,2,3,1];
 y = [11,10,23,22,34,33];
-disp(containsDuplicates(x))
+disp(Hermite(x,y,[5]));
 
 function yq = Lagrange(x,y,xq)
     n = length(x);
@@ -56,7 +56,11 @@ end
 
 function yq = Hermite(x,y,xq)
     if length(x) ~= length(y), error("dati inconsistenti"); end
-    if containsDuplicates(xq), error("le ascisse non " + ...
+    xapp = x(length(x)-1:-2:1);
+    if containsDuplicates(xapp), error("le ascisse non " + ...
+            "sono distinte fra loro"); end
+    xapp = x(2:2:length(x));
+    if containsDuplicates(xapp), error("le ascisse non " + ...
             "sono distinte fra loro"); end
     df = dividifHermite(x,y);
     n = (length(df)-2)/2;
