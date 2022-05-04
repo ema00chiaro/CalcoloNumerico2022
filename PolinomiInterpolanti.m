@@ -1,10 +1,10 @@
 x = [1,1,1,2,3,3];
 y = [11,10,23,22,34,33];
-disp(Lagrange([3,4,5],[1,2,3],[7,2,4]));
+disp(Lagrange([3,4,5,4],[1,2,3,4],[7,2,4]));
 function yq = Lagrange(x,y,xq)
     n = length(x);
     if n ~= size(y), error("dati inconsistenti"); end
-    if containsDuplicates(xq), error("le ascisse non " + ...
+    if containsDuplicates(x), error("le ascisse non " + ...
             "sono distinte fra loro"); end
     yq = zeros(size(xq));
     for i = 1:n
@@ -31,7 +31,7 @@ end
 
 function yq = Newton(x,y,xq)
     if length(x) ~= length(y), error("dati inconsistenti"); end
-    if containsDuplicates(xq), error("le ascisse non " + ...
+    if containsDuplicates(x), error("le ascisse non " + ...
             "sono distinte fra loro"); end
     df = dividif(x,y);
     n = length(df);
