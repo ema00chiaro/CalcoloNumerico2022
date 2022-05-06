@@ -169,6 +169,7 @@ function [x,i] = steffensen(f,x0,tol,maxiter)
 % OUTPUT:
 %     x - la soluzione trovata
 %     i - numero di iterazioni effettuate
+
     if nargin == 3, maxiter = 200; end
     if feval(f,x0) == 0, i = 1; x = x0; return, end
     x_old = x0;
