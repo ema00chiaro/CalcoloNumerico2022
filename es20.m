@@ -9,10 +9,11 @@ function yq = spline0(x,y,xq)
     n = length(x)-1;
     f = getConstantTerms(x,y);
     h = x(2:n+1)-x(1:n);
-    phi = h(1:n-1)./(h(1:n-1)+h(2:n));
-    epsilon = h(2:n)./(h(1:n-1)+h(2:n));
-%     diag = ones(1,n-1)*2;
-%     x = miaTriLU(diag,phi,epsilon,f);
+    phi = h(2:n-1)./(h(2:n-1)+h(3:n));
+    epsilon = h(2:n-1)./(h(1:n-2)+h(2:n-1));
+    diag = ones(1,n-1)*2;
+    m = miaTriLU(diag,phi,epsilon,f);
+    % ora bisogna calcolare s3 sfruttando i valori di m
 end
 
 function f = getConstantTerms(x,y)
@@ -22,21 +23,21 @@ function f = getConstantTerms(x,y)
     f = df3*6;
 end
 
-function x = miaTriLU(a,b,c,f)
+function m = miaTriLU(a,b,c,f)
     n = length(a);
     for i = 1:n-1
         b(i) = b(i)/a(i);
         a(i+1) = a(i+1)-b(i)*c(i);
     end
-%     x = f;
-%     %Ly = f
-%     for i = 1:n-2
-%         x(i+1) = f(i+1)-b(i)*x(i);
-%     end
-%     %Ux = y
-%     x(n) = x(n)/a(n);
-%     for i = n-2:-1:1
-%         x(i) = (x(i)-c(i)*x(i+1))/a(i);
-%     end
+    m = f;
+    %Ly = f
+    for i = 1:n-1
+        m(i+1) = f(i+1)-b(i)*m(i);
+    end
+    %Ux = y
+    m(n) = m(n)/a(n);
+    for i = n-1:-1:1
+        x(i) = (x(i)-c(i)*m(i+1))/a(i);
+    end
     return
 end
