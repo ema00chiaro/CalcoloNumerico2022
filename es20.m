@@ -14,6 +14,10 @@ function yq = spline0(x,y,xq)
     diag = ones(1,n-1)*2;
     m = miaTriLU(diag,phi,epsilon,f);
     % ora bisogna calcolare s3 sfruttando i valori di m
+    % m contiene s3^(II)(xi), calcolare -> s3
+    % bisogna capire in quale intervallo si trovano i vari elementi di xq e
+    % poi calcolare s3 di quell'intervallo nel punto giusto di xq
+
 end
 
 function f = getConstantTerms(x,y)
