@@ -5,32 +5,45 @@ n = 500;
 xq = linspace(a,b,1001);
 equidistanti = linspace(a,b,n+1);
 yeq = functionToPass(equidistanti);
-chebyshev = Chebyshev(a,b,n);
-ycheb = functionToPass(chebyshev);
+cheb = chebyshev(a,b,n);
+ycheb = functionToPass(cheb);
 
-yqe = Lagrange(equidistanti,yeq,xq);
-yqc = Lagrange(chebyshev,ycheb,xq);
+% yqe = lagrange(equidistanti,yeq,xq);
+% yqc = lagrange(cheb,ycheb,xq);
 
-disp(coso(equidistanti,xq));
-disp(coso(chebyshev,xq));
+disp(interpolErrLagrange(equidistanti,yeq,xq,@functionToPass));
+disp(interpolErrLagrange(cheb,ycheb,xq,@functionToPass));
+disp(interpolErrNewton(equidistanti,yeq,xq,@functionToPass));
+disp(interpolErrNewton(cheb,ycheb,xq,@functionToPass));
+
 function y = functionToPass(x)
     y = 1./(2*(2*x.^2 - 2*x + 1));
     return
 end
 
-function xc = Chebyshev(a,b,n)
+function xc = chebyshev(a,b,n)
     teta = (n:-1:0);
     teta = (teta.*2 + 1).*(pi/(2*(n+1)));
     xc = cos(teta).*((b-a)/2) + ((a+b)/2);
     return
 end
 
-function c = coso(x,xq)
-    c = 0;
+function e = interpolErrLagrange(x,y,xq,f)
+    e = 1 + lebesgue(x,xq);
+    e = e * norm(abs(feval(f,xq)-lagrange(x,y,xq)),"inf");
+end
+
+function e = interpolErrNewton(x,y,xq,f)
+    e = 1 + lebesgue(x,xq);
+    e = e * norm(abs(feval(f,xq)-newton(x,y,xq)),"inf");
+end
+
+function cLebesgue = lebesgue(x,xq)
+    cLebesgue = zeros(size(xq));
     for i = 1:length(x)
-        c = c + abs(Lin(x,xq,i));
+        cLebesgue = cLebesgue + abs(Lin(x,xq,i));
     end
-    c = norm(c,"inf");
+    cLebesgue = norm(cLebesgue,"inf");
     return
 end
 

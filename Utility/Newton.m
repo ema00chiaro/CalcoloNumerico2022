@@ -1,4 +1,4 @@
-function yq = Newton(x,y,xq)
+function yq = newton(x,y,xq)
     if length(x) ~= length(y), error("dati inconsistenti"); end
     if containsDuplicates(x), error("le ascisse non " + ...
             "sono distinte fra loro"); end

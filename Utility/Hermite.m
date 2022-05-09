@@ -1,4 +1,4 @@
-function yq = Hermite(x,y,xq)
+function yq = hermite(x,y,xq)
     %controlli vari
 %     if length(x) ~= length(y), error("dati inconsistenti"); end
 %     xapp = x(1:2:length(x));

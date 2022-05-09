@@ -1,4 +1,4 @@
-function yq = Lagrange(x,y,xq)
+function yq = lagrange(x,y,xq)
 % yq = Lagrange(x,y,xq)
 % 
 % Calcola nei punti xq il polinomio di Lagrange interpolante i punti (x,y)
