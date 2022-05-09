@@ -96,7 +96,7 @@ function yq = Hermite(x,y,xq)
 %     if ~isequal(xapp,xapp2) error("Le ascisse raddoppiate non coincidono " + ...
 %             " o non sono scritte nell'ordine x0,x0,x1,x1... ecc"); end
     n = (length(x)-2)/2;
-    if length(unique(x)) ~= n, error('dati inconsistenti'); end
+    if length(unique(x)) ~= n+1, error('dati inconsistenti'); end
     for i = 1:2:n-1
         if x(i) ~= x(i+1), error('dati non scritti nella maniera opportuna'); end
     end

@@ -1,7 +1,7 @@
 addpath("./Utility");
 a = -2;
 b = 3;
-n = 500;
+n = 40;
 xq = linspace(a,b,1001);
 equidistanti = linspace(a,b,n+1);
 yeq = functionToPass(equidistanti);
@@ -10,14 +10,42 @@ ycheb = functionToPass(cheb);
 
 % yqe = lagrange(equidistanti,yeq,xq);
 % yqc = lagrange(cheb,ycheb,xq);
+% disp(interpolErrLagrange(equidistanti,yeq,xq,@functionToPass));
+% disp(interpolErrLagrange(cheb,ycheb,xq,@functionToPass));
+% disp(interpolErrNewton(equidistanti,yeq,xq,@functionToPass));
+% disp(interpolErrNewton(cheb,ycheb,xq,@functionToPass));
+disp(interpolErrSpline0(equidistanti,yeq,xq,@functionToPass));
+disp(interpolErrSpline0(cheb,ycheb,xq,@functionToPass));
 
-disp(interpolErrLagrange(equidistanti,yeq,xq,@functionToPass));
-disp(interpolErrLagrange(cheb,ycheb,xq,@functionToPass));
-disp(interpolErrNewton(equidistanti,yeq,xq,@functionToPass));
-disp(interpolErrNewton(cheb,ycheb,xq,@functionToPass));
+equiHerm = repelem(equidistanti,2);
+chebHerm = repelem(cheb,2);
+
+yeqHerm = functionToPassDifferentiate(equiHerm);
+for i = 1:2:length(yeqHerm)
+    yeqHerm(i)  = functionToPass(equiHerm(i));
+end
+
+ychebHerm = functionToPassDifferentiate(chebHerm);
+for i = 1:2:length(ychebHerm)
+    ychebHerm(i)  = functionToPass(chebHerm(i));
+end
+
+% disp(interpolErrHermite(equiHerm,yeqHerm,xq,@functionToPass));
+% disp(interpolErrHermite(chebHerm,ychebHerm,xq,@functionToPass));
+
+
+plot(equidistanti,yeq);
+hold on;
+plot(xq,spline0(equidistanti,yeq,xq));
+hold off;
 
 function y = functionToPass(x)
     y = 1./(2*(2*x.^2 - 2*x + 1));
+    return
+end
+
+function y = functionToPassDifferentiate(x)
+    y = (1-2*x)/(2*x.^2 - 2*x + 1).^2;
     return
 end
 
@@ -36,6 +64,16 @@ end
 function e = interpolErrNewton(x,y,xq,f)
     e = 1 + lebesgue(x,xq);
     e = e * norm(abs(feval(f,xq)-newton(x,y,xq)),"inf");
+end
+
+function e = interpolErrHermite(x,y,xq,f)
+    e = 1 + lebesgue(unique(x),xq);
+    e = e * norm(abs(feval(f,xq)-hermite(x,y,xq)),"inf");
+end
+
+function e = interpolErrSpline0(x,y,xq,f)
+    e = 1 + lebesgue(x,xq);
+    e = e * norm(abs(feval(f,xq)-spline0(x,y,xq)),"inf");
 end
 
 function cLebesgue = lebesgue(x,xq)
