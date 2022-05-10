@@ -1,7 +1,7 @@
 x = [1,1,1,2,3,3];
 y = [11,10,23,22,34,33];
-disp(Lagrange([3,6,5,4],[1,2,3,4],[7,2,4]));
-function yq = Lagrange(x,y,xq)
+disp(lagrange([3,6,5,4],[1,2,3,4],[7,2,4]));
+function yq = lagrange(x,y,xq)
 % yq = Lagrange(x,y,xq)
 % 
 % Calcola nei punti xq il polinomio di Lagrange interpolante i punti (x,y)
@@ -58,7 +58,7 @@ function containsDuplicates = containsDuplicates(x)
     return
 end
 
-function yq = Newton(x,y,xq)
+function yq = newton(x,y,xq)
     if length(x) ~= length(y), error("dati inconsistenti"); end
     if containsDuplicates(x), error("le ascisse non " + ...
             "sono distinte fra loro"); end
@@ -82,7 +82,7 @@ function df = dividif(x,y)
     return
 end
 
-function yq = Hermite(x,y,xq)
+function yq = hermite(x,y,xq)
     %controlli vari
 %     if length(x) ~= length(y), error("dati inconsistenti"); end
 %     xapp = x(1:2:length(x));

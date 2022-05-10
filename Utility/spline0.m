@@ -18,7 +18,9 @@ function yq = spline0(x,y,xq)
                 break
             end
         end            
-        %DA RIVEDERE
+        %DA RIVEDERE======================================================
+        %perche in questo momento se una x non è in nessun intervallo
+        %lo ingora senza fare niente
         if k == 2 % primo intervallo (x0,x1) che in matlab è (x1,x2)
             mk = m(k-1);
             mk1 = 0;
