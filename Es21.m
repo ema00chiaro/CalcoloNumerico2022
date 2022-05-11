@@ -2,7 +2,7 @@ addpath("./Utility");
 a = -2;
 b = 3;
 n = 32;
-xq = linspace(a,b,1001);
+xq = linspace(a,b,10001);
 equidistanti = linspace(a,b,n+1);
 yeq = functionToPass(equidistanti);
 cheb = chebyshev(a,b,n);
@@ -100,6 +100,10 @@ for j = 1:5
     disp("hermite");
     eeh(j)=interpolErrHermite(equiHerm,yeqHerm,xq,@functionToPass);
     ech(j)=interpolErrHermite(chebHerm,ychebHerm,xq,@functionToPass);
+
+    if v(j) == 28
+        plot(xq,hermite(chebHerm,ychebHerm,xq));
+    end
     
     
     %DA RIVEDERE
@@ -124,7 +128,6 @@ ees0 = ees0';
 ecs0 = ecs0';
 ees = ees';
 ecs = ecs';
-format long e;
 disp(table(n,eel,een,eeh,ees0,ees));
 disp(table(n,ecl,ecn,ech,ecs0,ecs));
 
@@ -139,7 +142,7 @@ function y = functionToPass(x)
 end
 
 function y = functionToPassDifferentiate(x)
-    y = (1-2*x)/(2*x.^2 - 2*x + 1).^2;
+    y = (1-2*x)./(2*x.^2 - 2*x + 1).^2;
     return
 end
 
@@ -151,33 +154,33 @@ function xc = chebyshev(a,b,n)
 end
 
 function e = interpolErrLagrange(x,y,xq,f)
-    e = 1 + lebesgue(x,xq);
-    e = e * norm(abs(feval(f,xq)-lagrange(x,y,xq)),"inf");
-%     e = norm(abs(feval(f,xq)-lagrange(x,y,xq)),"inf");
+%     e = 1 + lebesgue(x,xq);
+%     e = e * norm(abs(feval(f,xq)-lagrange(x,y,xq)),"inf");
+    e = norm(abs(feval(f,xq)-lagrange(x,y,xq)),"inf");
 end
 
 function e = interpolErrNewton(x,y,xq,f)
-    e = 1 + lebesgue(x,xq);
-    e = e * norm(abs(feval(f,xq)-newton(x,y,xq)),"inf");
-%     e = norm(abs(feval(f,xq)-newton(x,y,xq)),"inf");
+%     e = 1 + lebesgue(x,xq);
+%     e = e * norm(abs(feval(f,xq)-newton(x,y,xq)),"inf");
+    e = norm(abs(feval(f,xq)-newton(x,y,xq)),"inf");
 end
 
 function e = interpolErrHermite(x,y,xq,f)
-    e = 1 + lebesgue(unique(x),xq);
-    e = e * norm(abs(feval(f,xq)-hermite(x,y,xq)),"inf");
-%     e = norm(abs(feval(f,xq)-hermite(x,y,xq)),"inf");
+%     e = 1 + lebesgue(unique(x),xq);
+%     e = e * norm(abs(feval(f,xq)-hermite(x,y,xq)),"inf");
+    e = norm(abs(feval(f,xq)-hermite(x,y,xq)),"inf");
 end
 
 function e = interpolErrSpline0(x,y,xq,f)
-    e = 1 + lebesgue(x,xq);
-    e = e * norm(abs(feval(f,xq)-spline0(x,y,xq)),"inf");
-%     e = norm(abs(feval(f,xq)-spline0(x,y,xq)),"inf");
+%     e = 1 + lebesgue(x,xq);
+%     e = e * norm(abs(feval(f,xq)-spline0(x,y,xq)),"inf");
+    e = norm(abs(feval(f,xq)-spline0(x,y,xq)),"inf");
 end
 
 function e = interpolErrSpline(x,y,xq,f)
-    e = 1 + lebesgue(x,xq);
-    e = e * norm(abs(feval(f,xq)-spline(x,y,xq)),"inf");
-%     e = norm(abs(feval(f,xq)-spline(x,y,xq)),"inf");
+%     e = 1 + lebesgue(x,xq);
+%     e = e * norm(abs(feval(f,xq)-spline(x,y,xq)),"inf");
+    e = norm(abs(feval(f,xq)-spline(x,y,xq)),"inf");
 end
 
 function cLebesgue = lebesgue(x,xq)
