@@ -1,7 +1,7 @@
 addpath("./Utility");
 a = -2;
 b = 3;
-n = 40;
+n = 28;
 xq = linspace(a,b,1001);
 equidistanti = linspace(a,b,n+1);
 yeq = functionToPass(equidistanti);

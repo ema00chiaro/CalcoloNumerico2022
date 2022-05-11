@@ -3,59 +3,7 @@ a = -2;
 b = 3;
 n = 32;
 xq = linspace(a,b,10001);
-equidistanti = linspace(a,b,n+1);
-yeq = functionToPass(equidistanti);
-cheb = chebyshev(a,b,n);
-ycheb = functionToPass(cheb);
 v = [4,8,16,32,40];
-
-% yqe = lagrange(equidistanti,yeq,xq);
-% yqc = lagrange(cheb,ycheb,xq);
-
-% for j = 1:5
-%     n = v(j);
-%     disp("----------------" + n)
-%     equidistanti = linspace(a,b,n+1);
-%     yeq = functionToPass(equidistanti);
-%     cheb = chebyshev(a,b,n);
-%     ycheb = functionToPass(cheb);
-% 
-%     disp("lagrange");
-%     disp(interpolErrLagrange(equidistanti,yeq,xq,@functionToPass));
-%     disp(interpolErrLagrange(cheb,ycheb,xq,@functionToPass));
-%     disp("newton");
-%     disp(interpolErrNewton(equidistanti,yeq,xq,@functionToPass));
-%     disp(interpolErrNewton(cheb,ycheb,xq,@functionToPass));
-%     
-%     
-%     equiHerm = repelem(equidistanti,2);
-%     chebHerm = repelem(cheb,2);
-%     
-%     yeqHerm = functionToPassDifferentiate(equiHerm);
-%     for i = 1:2:length(yeqHerm)
-%         yeqHerm(i)  = functionToPass(equiHerm(i));
-%     end
-%     
-%     ychebHerm = functionToPassDifferentiate(chebHerm);
-%     for i = 1:2:length(ychebHerm)
-%         ychebHerm(i)  = functionToPass(chebHerm(i));
-%     end
-%     
-%     disp("hermite");
-%     disp(interpolErrHermite(equiHerm,yeqHerm,xq,@functionToPass));
-%     disp(interpolErrHermite(chebHerm,ychebHerm,xq,@functionToPass));
-%     
-%     
-%     %DA RIVEDERE
-%     disp("slpine0");
-%     disp(interpolErrSpline0(equidistanti,yeq,xq,@functionToPass));
-%     disp(interpolErrSpline0(cheb,ycheb,xq,@functionToPass));
-%     %-----------
-%     
-%     disp("spline");
-%     disp(interpolErrSpline(equidistanti,yeq,xq,@functionToPass));
-%     disp(interpolErrSpline(cheb,ycheb,xq,@functionToPass));
-% end
 
 eel = zeros(1,5);
 ecl = zeros(1,5);
@@ -70,6 +18,9 @@ ecs = zeros(1,5);
 
 for j = 1:5
     n = v(j);
+    %come quegli stupidi
+    %n = n-1;
+    %-------------------
     disp("----------------" + n)
     equidistanti = linspace(a,b,n+1);
     yeq = functionToPass(equidistanti);
@@ -181,6 +132,12 @@ function e = interpolErrSpline(x,y,xq,f)
 %     e = 1 + lebesgue(x,xq);
 %     e = e * norm(abs(feval(f,xq)-spline(x,y,xq)),"inf");
     e = norm(abs(feval(f,xq)-spline(x,y,xq)),"inf");
+end
+
+function v = cazzi(a,b,n)
+    h = (b-a)/n;
+    i = (0:n);
+    v = a+i.*h;
 end
 
 function cLebesgue = lebesgue(x,xq)
