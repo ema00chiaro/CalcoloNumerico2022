@@ -1,7 +1,7 @@
 composita(@functionToPass,0,pi,2,10^-5);
 
 function y =  functionToPass(x)
-    y = sin(x);
+    y = sin(1./(0.1+x));
 end
 
 function [If,err,nfeval] = composita(fun,a,b,n,tol)
@@ -91,8 +91,9 @@ function [If,err,nfeval] = composita(fun,a,b,n,tol)
         En = abs(Inm-Inm2)/(2^(n+mu)-1);
         ite = ite +1;
         disp("iteraz-----------" + ite);
-        disp("m = " + m)
-        disp(En);
+        disp("m = " + m);
+        disp("Inm = " + Inm);
+        disp("errore " + En);
 
     end
     

@@ -32,6 +32,7 @@ function x = mialdl(A,b)
             "dimensioni adeguate, errore!");
     end
     
+    if ~issymmetric(A), error("Matrice non simmetrica"); end
     if A(1,1) <= 0, error("Matrice non sdp");end
     A(2:n,1) = A(2:n,1)/A(1,1);
     for j = 2:n
