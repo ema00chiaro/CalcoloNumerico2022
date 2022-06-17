@@ -1,24 +1,28 @@
-function yq = hermite(x,y,xq)
-    %controlli vari
-%     if length(x) ~= length(y), error("dati inconsistenti"); end
-%     xapp = x(1:2:length(x));
-%     if containsDuplicates(xapp), error("le ascisse non " + ...
-%             "sono distinte fra loro" + ...
-%             " o non sono scritte nell'ordine x0,x0,x1,x1... ecc"); end
-%     xapp2 = x(2:2:length(x));
-%     if containsDuplicates(xapp2), error("le ascisse non " + ...
-%             "sono distinte fra loro o" + ...
-%             " non sono scritte nell'ordine x0,x0,x1,x1... ecc"); end
-%     if ~isequal(xapp,xapp2) error("Le ascisse raddoppiate non coincidono " + ...
-%             " o non sono scritte nell'ordine x0,x0,x1,x1... ecc"); end
-    n = (length(x)-2)/2;
-    if length(unique(x)) ~= n+1, error('dati inconsistenti'); end
-    for i = 1:2:n-1
-        if x(i) ~= x(i+1), error('dati non scritti nella maniera opportuna'); end
+function yq = hermite(x,y,y1,xq)
+% yq = hermite(x,y,y1,xq)
+%
+% Funzione che calcola il polinomio interpolante di Hermite nei
+% punti xq.
+% Input:
+% 	x - vettore che contiene le ascisse di interpolazione
+%	y - valori che assume la funzione nei punti x
+%	y1 - valori che assume la derivata della funzione nei punti x
+%	xq - valori dove vogliamo calcolare il polinomio
+% 		interpolante
+% Output:
+%	yq - valori che assume il polinomio interpolante in
+% 		 corrispondenza di xq.
+
+    n = length(x)-1;
+    if length(x) ~= length(y) || length(x) ~= length(y1)
+         error('dati inconsistenti');
     end
-    %fine controlli
+    if length(unique(x)) ~= n+1, error('dati inconsistenti'); end
+    
+    x = repelem(x,2);
+    y = repelem(y,2);
+    y(2:2:end) = y1(1:end);
     df = dividifHermite(x,y);
-    n = (length(df)-2)/2;
     yq = ones(size(xq))*df(2*n+2);
     for i = 2*n+1:-1:1
         yq = yq.*(xq-x(i))+df(i);
@@ -27,6 +31,15 @@ function yq = hermite(x,y,xq)
 end
 
 function df = dividifHermite(x,y)
+%df = dividifHermite(x,y)
+%
+% Funzione che calcola il vettore delle differenze divise per il %polinomio interpolante di Hermite.
+% Input:
+%	x - valori delle ascisse di interpolazione
+%	y - valori della funzione in corrispondenza di x
+% Output:
+%	df - vettore contenente le differenze divise
+
     df = y;
     n = (length(df)-2)/2;
     %prima colonna

@@ -1,7 +1,7 @@
 [A,b] = linsis(10,1,1);
-disp(mialdl(A,b));
+disp(mialdlt(A,b));
 [A,b] = linsis(10,10,1);
-disp(mialdl(A,b));
+disp(mialdlt(A,b));
 
 % A = rand(5,5)*10;
 % A = A'*A; %serve per renderla sdp
@@ -11,10 +11,10 @@ disp(mialdl(A,b));
 % disp("mat") 
 % disp(A\b);
 % disp("mia") 
-% disp(mialdl(A,b));
+% disp(mialdlt(A,b));
 
-function x = mialdl(A,b)
-% x = mialdl(A,b)
+function x = mialdlt(A,b)
+% x = mialdlt(A,b)
 % 
 % La funzione calcola la soluzione del sistema lineare Ax=b 
 % mediante il metodo della fattorizzazione LDL'
@@ -32,7 +32,6 @@ function x = mialdl(A,b)
             "dimensioni adeguate, errore!");
     end
     
-    if ~issymmetric(A), error("Matrice non simmetrica"); end
     if A(1,1) <= 0, error("Matrice non sdp");end
     A(2:n,1) = A(2:n,1)/A(1,1);
     for j = 2:n

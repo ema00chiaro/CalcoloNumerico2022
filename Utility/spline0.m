@@ -4,7 +4,8 @@ function yq = spline0(x,y,xq)
     f = getConstantTerms(x,y);
     h = x(2:n+1)-x(1:n);
     phi = h(2:n-1)./(h(2:n-1)+h(3:n));
-    epsilon = h(2:n-1)./(h(1:n-2)+h(2:n-1));
+%     epsilon = h(2:n-1)./(h(1:n-2)+h(2:n-1));
+    epsilon =h(3:n)./(h(2:n-1)+h(3:n));
     diag = ones(1,n-1)*2;
     m = miaTriLU(diag,phi,epsilon,f);
 
@@ -35,6 +36,8 @@ function yq = spline0(x,y,xq)
             qi = (y(k)-y(k-1))/h(k-1) - (h(k-1)/6)*(mk-mk1);
             ri = y(k-1) - ((h(k-1)^2)/6)*mk1;
             yq(i) = (((xq(i)-x(k-1))^3)*mk-((x(k)-xq(i))^3)*mk1)/(6*h(k-1)) + qi*(xq(i)-x(k-1)) + ri;
+        else
+            disp("sono chionzo");
         end
     end
     return

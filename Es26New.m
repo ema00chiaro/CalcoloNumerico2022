@@ -23,16 +23,33 @@ function y =  functionToPass(x)
 end
 
 function [If,err,nfeval] = composita(fun,a,b,n,tol)
-    err = tol + 1;
+% [If,err,nfeval] = composita(fun,a,b,n,tol)
+% 
+% Funzione che calcola la stima err dell'errore di quadratura,
+% l'approssimazione If dell'integrale della funzione fun e il
+% numero di valutazioni funzionali effettuate mediante l'utilizzo
+% della forma composita di Newton-Cotes base di grado n
+% Input:
+%     fun - la funzione integranda
+%     a,b - estermi di integrazione
+%     n - grado della formula composita
+%     tol - tolleranza del metodo
+% Output:
+%     If - approssimazione dell'integrale di fun
+%     err - stima dell'errore di quadratura
+%     nfeval - numero di valutazioni funzionali effettuate
+
+    if b <= a, error("a deve essere minore di b");end
+    if n <= 0, error("il grado della formula" + ...
+            " composita deve essere postivo");end
     nfeval = 0;
+    w = weights(n);
     m = n;
-    If = 0;
-    while (err > tol)
+    while 1
         m = 2*m;
         h = (b-a)/m;
-        i = (0:m);
-        xi = a+i*h;
-        if m == 2*n % first time
+        xi = a+(0:m)*h;
+        if m == 2*n % prima volta
             fi = fun(xi);
             nfeval = nfeval + m+1;
         else
@@ -46,10 +63,8 @@ function [If,err,nfeval] = composita(fun,a,b,n,tol)
         else
             mu = 1;
         end
-
-        w = weights(n);
+        
         Ieven = 0;
-
         i = 1;
         k = 1;
         while i <= m+1
@@ -63,6 +78,7 @@ function [If,err,nfeval] = composita(fun,a,b,n,tol)
         end
         Ieven = Ieven * (b-a)/(m/2);
         
+        If = 0;
         i = 1;
         k = 1;
         while i <= m+1
@@ -74,14 +90,10 @@ function [If,err,nfeval] = composita(fun,a,b,n,tol)
                 i = i-1;
             end
         end
-        If = If * (b-a)/(m);
+        If = If * (b-a)/m;
     
         err = abs(Ieven-If)/(2^(n+mu)-1);
-%         disp("-----------");
-%         disp("m = " + m);
-%         disp("If = " + If);
-%         disp("errore " + err);
-%         disp("nfeval " + nfeval);
+        if err <= tol,break;end
     end
 end
 

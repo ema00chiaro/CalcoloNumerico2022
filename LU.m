@@ -1,17 +1,20 @@
-% [A,b] = linsis(10,1);
-% disp(mialu(A,b));
-% [A,b] = linsis(10,10);
-% disp(cond(A));
-% disp(mialu(A,b));
-
-A = rand(5,5)*100;
-disp(A);
-b = rand(5,1)*10;
-disp(b);
-disp("mat") 
-disp(A\b);
-disp("mia") 
+[A,b] = linsis(10,1);
 disp(mialu(A,b));
+[A,b] = linsis(10,10);
+disp(cond(A));
+disp(mialu(A,b));
+
+% A = rand(5,5)*100;
+% disp(A);
+% b = rand(5,1)*10;
+% disp(b);
+% disp("mat") 
+% disp(A\b);
+% disp("mia") 
+% disp(mialu(A,b));
+% [L,U] = lu(A);
+% disp(L);
+% disp(U);
 
 function x = mialu(A,b)
 % x = mialu(A,b)
@@ -46,6 +49,7 @@ function x = mialu(A,b)
         x(i) = x(i)/A(i,i);
         x(1:i-1) = x(1:i-1) - A(1:i-1,i)*x(i);
     end
+    disp(A);
     return
 end
 

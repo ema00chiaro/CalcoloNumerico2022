@@ -1,7 +1,6 @@
 addpath("./Utility");
 a = -2;
 b = 3;
-n = 32;
 xq = linspace(a,b,10001);
 v = [4,8,16,32,40];
 
@@ -18,39 +17,29 @@ ecs = zeros(1,5);
 
 for j = 1:5
     n = v(j);
-    %come quegli stupidi
-    %n = n-1;
+%     come quegli stupidi
+%     n = n-1;
     %-------------------
-    disp("----------------" + n)
+%     disp("----------------" + n)
     equidistanti = linspace(a,b,n+1);
     yeq = functionToPass(equidistanti);
     cheb = chebyshev(a,b,n);
     ycheb = functionToPass(cheb);
 
-    disp("lagrange");
+%     disp("lagrange");
     eel(j)=interpolErrLagrange(equidistanti,yeq,xq,@functionToPass);
     ecl(j)=interpolErrLagrange(cheb,ycheb,xq,@functionToPass);
-    disp("newton");
+%     disp("newton");
     een(j)=interpolErrNewton(equidistanti,yeq,xq,@functionToPass);
     ecn(j)=interpolErrNewton(cheb,ycheb,xq,@functionToPass);
+ 
     
+    y1eq = functionToPassDifferentiate(equidistanti);
+    y1cheb = functionToPassDifferentiate(cheb);
     
-    equiHerm = repelem(equidistanti,2);
-    chebHerm = repelem(cheb,2);
-    
-    yeqHerm = functionToPassDifferentiate(equiHerm);
-    for i = 1:2:length(yeqHerm)
-        yeqHerm(i)  = functionToPass(equiHerm(i));
-    end
-    
-    ychebHerm = functionToPassDifferentiate(chebHerm);
-    for i = 1:2:length(ychebHerm)
-        ychebHerm(i)  = functionToPass(chebHerm(i));
-    end
-    
-    disp("hermite");
-    eeh(j)=interpolErrHermite(equiHerm,yeqHerm,xq,@functionToPass);
-    ech(j)=interpolErrHermite(chebHerm,ychebHerm,xq,@functionToPass);
+%     disp("hermite");
+    eeh(j)=interpolErrHermite(equidistanti,yeq,y1eq,xq,@functionToPass);
+    ech(j)=interpolErrHermite(cheb,ycheb,y1cheb,xq,@functionToPass);
 
     if v(j) == 28
         plot(xq,hermite(chebHerm,ychebHerm,xq));
@@ -58,12 +47,14 @@ for j = 1:5
     
     
     %DA RIVEDERE
-    disp("slpine0");
+%     disp("slpine0");
+    cheb2 = [a,cheb,b];
+    ycheb2 = [functionToPass(a),ycheb,functionToPass(b)];
     ees0(j)=interpolErrSpline0(equidistanti,yeq,xq,@functionToPass);
-    ecs0(j)=interpolErrSpline0(cheb,ycheb,xq,@functionToPass);
+%     ecs0(j)=interpolErrSpline0(cheb,ycheb,xq,@functionToPass);
     %-----------
     
-    disp("spline");
+%     disp("spline");
     ees(j)=interpolErrSpline(equidistanti,yeq,xq,@functionToPass);
     ecs(j)=interpolErrSpline(cheb,ycheb,xq,@functionToPass);
 end
@@ -93,7 +84,7 @@ function y = functionToPass(x)
 end
 
 function y = functionToPassDifferentiate(x)
-    y = (1-2*x)./(2*x.^2 - 2*x + 1).^2;
+    y = (1-2*x)./(4*x.^4-8*x.^3+8*x.^2-4*x+1);
     return
 end
 
@@ -116,10 +107,10 @@ function e = interpolErrNewton(x,y,xq,f)
     e = norm(abs(feval(f,xq)-newton(x,y,xq)),"inf");
 end
 
-function e = interpolErrHermite(x,y,xq,f)
+function e = interpolErrHermite(x,y,y1,xq,f)
 %     e = 1 + lebesgue(unique(x),xq);
 %     e = e * norm(abs(feval(f,xq)-hermite(x,y,xq)),"inf");
-    e = norm(abs(feval(f,xq)-hermite(x,y,xq)),"inf");
+    e = norm(abs(feval(f,xq)-hermite(x,y,y1,xq)),"inf");
 end
 
 function e = interpolErrSpline0(x,y,xq,f)

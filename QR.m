@@ -3,14 +3,18 @@
 % [x,nr] = miaqr(a,b);
 % disp(x);
 % disp(nr);
-% A = [ 1 3 2; 3 5 4; 5 7 6; 3 6 4; 1 4 2 ];
-% b = [ 15 28 41 33 22 ]';
-% D = diag(1:5);
-% [x,nr] = miaqr(A,b);
-% disp(x);
+A = [ 1 3 2; 3 5 4; 5 7 6; 3 6 4; 1 4 2 ];
+b = [ 15 28 41 33 22 ]';
+D = diag(1:5);
+disp(A\b);
+[x,nr] = miaqr(A,b);
+disp(x);
+disp("err: " + abs(A\b-x)./abs(A\b));
 % disp(nr);
-% [x,nr] = miaqr(D*A,D*b);
-% disp(x);
+disp(D*A\D*b);
+[x,nr] = miaqr(D*A,D*b);
+disp(x);
+disp("err: " + abs((D*A)\(D*b)-x)./abs((D*A)\(D*b)));
 % disp(nr);
 
 
@@ -28,8 +32,8 @@ function [x,nr] = miaqr(A,b)
     [m,n]=size(A);
     if m < n, error("Dimensioni errate per la matrice del sistema"); end
     [row,col] = size(b);
-    if col ~= 1 || row~=m, error("Il vettore dei termini noti non ha " + ...
-                                 "dimensioni adeguate, errore!"); end
+    if col ~= 1 || row~=m, error("Il vettore dei " + ...
+            "termini noti non ha dimensioni adeguate, errore!"); end
     for i = 1:n
         %calcolo alpha con il suo segno
         alpha = norm(A(i:m,i));
