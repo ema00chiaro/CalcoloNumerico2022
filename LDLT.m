@@ -1,7 +1,7 @@
-[A,b] = linsis(10,1,1);
-disp(mialdlt(A,b));
-[A,b] = linsis(10,10,1);
-disp(mialdlt(A,b));
+% [A,b] = linsis(10,1,1);
+% disp(mialdlt(A,b));
+% [A,b] = linsis(10,10,1);
+% disp(mialdlt(A,b));
 
 % A = rand(5,5)*10;
 % A = A'*A; %serve per renderla sdp
@@ -12,6 +12,17 @@ disp(mialdlt(A,b));
 % disp(A\b);
 % disp("mia") 
 % disp(mialdlt(A,b));
+
+A = rand(5,5)*100;
+A = A'*A;
+b = rand(5,1)*10;
+sol = mialdlt(A,b);
+writematrix(A,'matrici.csv','WriteMode','append')
+writematrix("-",'matrici.csv','WriteMode','append')
+writematrix(b,'matrici.csv','WriteMode','append')
+writematrix("-",'matrici.csv','WriteMode','append')
+writematrix(sol,'matrici.csv','WriteMode','append')
+writematrix("-",'matrici.csv','WriteMode','append')
 
 function x = mialdlt(A,b)
 % x = mialdlt(A,b)

@@ -8,20 +8,23 @@
 % x = solvePALU(a,b,pos);
 % disp(x);
 
-% A = rand(5,5)*100;
-% b = rand(5,1)*10;
-% disp("mat")
-% disp(A\b);
-% disp("mia") 
-% disp(mialu(A,b));
-% disp(abs(A\b - mialu(A,b))./abs(A\b));
+A = rand(5,5)*100;
+b = rand(5,1)*10;
+sol = mialu(A,b);
+writematrix(A,'matrici.csv','WriteMode','append')
+writematrix("-",'matrici.csv','WriteMode','append')
+writematrix(b,'matrici.csv','WriteMode','append')
+writematrix("-",'matrici.csv','WriteMode','append')
+writematrix(sol,'matrici.csv','WriteMode','append')
+writematrix("-",'matrici.csv','WriteMode','append')
+disp(abs(A\b - mialu(A,b))./abs(A\b));
 
-[A,b] = linsis(10,1);
-disp(cond(A));
-disp(mialu(A,b));
-[A,b] = linsis(10,10);
-disp(cond(A));
-disp(mialu(A,b));
+% [A,b] = linsis(10,1);
+% disp(cond(A));
+% disp(mialu(A,b));
+% [A,b] = linsis(10,10);
+% disp(cond(A));
+% disp(mialu(A,b));
 
 function x = mialu(A,b)
 % x = mialu(A,b)
