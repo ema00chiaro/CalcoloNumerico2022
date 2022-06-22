@@ -1,4 +1,8 @@
-addpath("./Utility");
+addpath("./funcs/Es16");
+addpath("./funcs/Es17");
+addpath("./funcs/Es18");
+addpath("./funcs/Es19");
+addpath("./funcs/Es20");
 a = -2;
 b = 3;
 xq = linspace(a,b,10001);

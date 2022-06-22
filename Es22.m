@@ -1,3 +1,10 @@
+addpath("./funcs/Es16");
+addpath("./funcs/Es17");
+addpath("./funcs/Es18");
+addpath("./funcs/Es19");
+addpath("./funcs/Es20");
+
+compareSplines();
 function compareSplines()
     xq = linspace(0,1,10001);
     n = 5;

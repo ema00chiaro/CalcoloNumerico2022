@@ -1,3 +1,4 @@
+addpath("./funcs/Es24");
 a = 0;
 b = 1;
 integi = zeros(1,9);
@@ -22,16 +23,4 @@ disp(table(n,in,err));
 
 function y = funzione(x)    
     y = exp(3*x);
-end
-
-function w = weights(n)
-    w = zeros(1,n+1);
-    for i = 0:n
-        a = poly([0:i-1,i+1:n]);
-        a = [a./(n+1:-1:1), 0];
-        num = polyval(a,(n));
-        d = i - [0:i-1,i+1:n];
-        den = prod(d);
-        w(i+1) = num/den;
-    end
 end

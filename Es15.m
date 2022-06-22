@@ -1,0 +1,26 @@
+addpath("./funcs/Es9");
+addpath("./funcs/Es14");
+format long;
+fun=@(x)[(x(1)^2+1)*(x(2)-2); exp(x(1)-1)+exp(x(2)-2)-2];
+Df=@(x)[2*x(1)*(x(2)-2) (x(1)^2+1);exp(x(1)-1) exp(x(2)-2)];
+
+fun2=@(x)[x(1)-(x(2)*x(3));exp(x(1)+x(2)+x(3)-3)-x(2);x(1)+x(2)+2*x(3)-4];
+Df2=@(x)[1 -x(3) -x(2);exp(x(1)+x(2)+x(3)-3) exp(x(1)+x(2)+x(3)-3)-1 exp(x(1)+x(2)+x(3)-3);1 1 2];
+[x,nit]=newton(fun,Df,[0,0]',1e-3,200);
+disp("iter: " + nit);
+disp(x);
+[x,nit]=newton(fun,Df,[0,0]',1e-8,200);
+disp("iter: " + nit);
+disp(x);
+[x,nit]=newton(fun,Df,[0,0]',1e-13,200);
+disp("iter: " + nit);
+disp(x);
+[x2,nit2]=newton(fun2,Df2,[0,0,0]',1e-3,200);
+disp("iter: " + nit2);
+disp(x2);
+[x2,nit2]=newton(fun2,Df2,[0,0,0]',1e-8,200);
+disp("iter: " + nit2);
+disp(x2);
+[x2,nit2]=newton(fun2,Df2,[0,0,0]',1e-13,200);
+disp("iter: " + nit2);
+disp(x2);
