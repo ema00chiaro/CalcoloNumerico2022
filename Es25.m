@@ -11,7 +11,7 @@ for n = 1 : 9
     integi(n) = h*sum(fi.*w);
     disp(erron(n));
     disp(integi(n));
-    erron(n) = erron(n) - integi(n);
+    erron(n) = abs(erron(n) - integi(n));
 end
 
 n = [1:7,9]';

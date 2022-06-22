@@ -18,20 +18,19 @@ ecs = zeros(1,5);
 for j = 1:5
     n = v(j);
 %     come quegli stupidi
-%     n = n-1;
-    %-------------------
-%     disp("----------------" + n)
+%     equidistanti = linspace(a,b,n);
     equidistanti = linspace(a,b,n+1);
     yeq = functionToPass(equidistanti);
     cheb = chebyshev(a,b,n);
     ycheb = functionToPass(cheb);
+    xqch = linspace(cheb(1),cheb(end),10001);
 
 %     disp("lagrange");
     eel(j)=interpolErrLagrange(equidistanti,yeq,xq,@functionToPass);
-    ecl(j)=interpolErrLagrange(cheb,ycheb,xq,@functionToPass);
+    ecl(j)=interpolErrLagrange(cheb,ycheb,xqch,@functionToPass);
 %     disp("newton");
     een(j)=interpolErrNewton(equidistanti,yeq,xq,@functionToPass);
-    ecn(j)=interpolErrNewton(cheb,ycheb,xq,@functionToPass);
+    ecn(j)=interpolErrNewton(cheb,ycheb,xqch,@functionToPass);
  
     
     y1eq = functionToPassDifferentiate(equidistanti);
@@ -39,7 +38,7 @@ for j = 1:5
     
 %     disp("hermite");
     eeh(j)=interpolErrHermite(equidistanti,yeq,y1eq,xq,@functionToPass);
-    ech(j)=interpolErrHermite(cheb,ycheb,y1cheb,xq,@functionToPass);
+    ech(j)=interpolErrHermite(cheb,ycheb,y1cheb,xqch,@functionToPass);
 
     if v(j) == 28
         plot(xq,hermite(chebHerm,ychebHerm,xq));
@@ -48,15 +47,13 @@ for j = 1:5
     
     %DA RIVEDERE
 %     disp("slpine0");
-    cheb2 = [a,cheb,b];
-    ycheb2 = [functionToPass(a),ycheb,functionToPass(b)];
     ees0(j)=interpolErrSpline0(equidistanti,yeq,xq,@functionToPass);
-%     ecs0(j)=interpolErrSpline0(cheb,ycheb,xq,@functionToPass);
+    ecs0(j)=interpolErrSpline0(cheb,ycheb,xqch,@functionToPass);
     %-----------
     
 %     disp("spline");
     ees(j)=interpolErrSpline(equidistanti,yeq,xq,@functionToPass);
-    ecs(j)=interpolErrSpline(cheb,ycheb,xq,@functionToPass);
+    ecs(j)=interpolErrSpline(cheb,ycheb,xqch,@functionToPass);
 end
 
 n = v';
@@ -116,6 +113,7 @@ end
 function e = interpolErrSpline0(x,y,xq,f)
 %     e = 1 + lebesgue(x,xq);
 %     e = e * norm(abs(feval(f,xq)-spline0(x,y,xq)),"inf");
+%     plot(x,y,xq,spline02(x,y,xq),xq,spline(x,y,xq));
     e = norm(abs(feval(f,xq)-spline0(x,y,xq)),"inf");
 end
 

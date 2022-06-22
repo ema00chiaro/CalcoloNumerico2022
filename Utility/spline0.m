@@ -1,53 +1,65 @@
-
 function yq = spline0(x,y,xq)
-    n = length(x)-1;
-    f = getConstantTerms(x,y);
-    h = x(2:n+1)-x(1:n);
-    phi = h(2:n-1)./(h(2:n-1)+h(3:n));
-%     epsilon = h(2:n-1)./(h(1:n-2)+h(2:n-1));
-    epsilon =h(3:n)./(h(2:n-1)+h(3:n));
-    diag = ones(1,n-1)*2;
-    m = miaTriLU(diag,phi,epsilon,f);
-
+    n = length(x);
+    h = x(2:n)-x(1:n-1);
+    %calcolo phi ed epsilon saltando il primo elemento
+    %per phi e l'ultimo per epsilon in quanto non necessari
+    phi = h(2:end-1)./(h(2:end-1)+h(3:end));
+    epsilon = h(2:end-1)./(h(1:end-2)+h(2:end-1));
+    diag = ones(1,n-2)*2;
+    df = 6*getDiffs(x,y);
+    m = miaTriLU(diag,phi,epsilon,df);
+    
     yq = zeros(size(xq));
-    for i = 1: length(xq)
-        k = 0;
-        % fare funzione per questo for
-        for j = 1:length(x)-1
-            if xq(i) >= x(j) && xq(i) <= x(j+1)
-                k = j+1; % k prende l'indice più alto degli estremi dell'intervallo
+
+    q = zeros(size(h));
+    r = zeros(size(h));
+
+    %calcolo i vettori q ed r
+    q(1) = (y(2)-y(1))/h(1) - (h(1)/6)*(m(1));
+    r(1) = y(1) - (h(1)^2/6)*m(1);
+    for i = 3:n-1
+         m1 = m(i-2);
+         m2 = m(i-1);
+        q(i-1) = (y(i)-y(i-1))/h(i-1) - (h(i-1)/6)*(m2-m1);
+        r(i-1) = y(i-1) - (h(i-1)^2/6)*m1;
+    end
+    q(n-1) = (y(n)-y(n-1))/h(n-1) - (h(n-1)/6)*(-m(n-2));
+    r(n-1) = y(n-1) - (h(n-1)^2/6)*m(n-2);
+
+    %per ogni valore di xq, cerco l'intervallo di appartenenza
+    %e successivamente calcolo s3(xq)
+    for i = 1:length(xq)
+        k = 0; %intervallo di appertenza di xq(i)
+        for j = 2:n
+            if xq(i) >= x(j-1) && xq(i) <= x(j)
+                k = j-1;
                 break
             end
-        end            
-        %DA RIVEDERE======================================================
-        %perche in questo momento se una x non è in nessun intervallo
-        %lo ingora senza fare niente
-        if k == 2 % primo intervallo (x0,x1) che in matlab è (x1,x2)
-            mk = m(k-1);
-            mk1 = 0;
-        elseif k == length(x) % intervallo finale
-            mk = 0;
-            mk1 = m(k-2);
+        end
+        if k == 0, error("valore di xq : " + xq(i) + ...
+                " non appartiene all'inervallo " +x(1) + "-"+x(end));end
+        if k == 1
+            m1 = 0;
+            m2 = m(1);
+        elseif k == length(x)-1
+            m1 = m(end);
+            m2 = 0;
         elseif k ~= 0
-            mk = m(k-1);
-            mk1 = m(k-2);
+            m1 = m(k-1);
+            m2 = m(k);
         end
         if k ~= 0
-            qi = (y(k)-y(k-1))/h(k-1) - (h(k-1)/6)*(mk-mk1);
-            ri = y(k-1) - ((h(k-1)^2)/6)*mk1;
-            yq(i) = (((xq(i)-x(k-1))^3)*mk-((x(k)-xq(i))^3)*mk1)/(6*h(k-1)) + qi*(xq(i)-x(k-1)) + ri;
-        else
-            disp("sono chionzo");
+            yq(i) = ((((xq(i)-x(k))^3)*m2)+(((x(k+1)-xq(i))^3)*m1))/(6*h(k)) + q(k)*(xq(i)-x(k)) + r(k);
         end
     end
     return
 end
 
-function f = getConstantTerms(x,y)
+function diffs = getDiffs(x,y)
     n = length(x);
-    df2 = (y(2:n)-y(1:n-1))./((x(2:n)-x(1:n-1))); % vettore con f[x0x1]...f[x(n-1)xn]
-    df3 = (df2(2:n-1)-df2(1:n-2))./((x(3:n)-x(1:n-2))); %vettore con f[x0x1x2]...f[x(n-2)x(n-1)xn]
-    f = df3*6;
+    df2 = (y(2:n)-y(1:n-1))./(x(2:n)-x(1:n-1));
+    diffs = (df2(2:end)-df2(1:end-1))./(x(3:n)-x(1:n-2));
+    return
 end
 
 function m = miaTriLU(a,b,c,m)
