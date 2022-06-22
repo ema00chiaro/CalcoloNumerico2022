@@ -1,4 +1,4 @@
-function [If,err,nfeval] = composita(fun,a,b,n,tol)
+function [If,err,nfeval] = compositaNew(fun,a,b,n,tol)
 % [If,err,nfeval] = composita(fun,a,b,n,tol)
 % 
 % Funzione che calcola la stima err dell'errore di quadratura,
@@ -21,51 +21,53 @@ function [If,err,nfeval] = composita(fun,a,b,n,tol)
     nfeval = 0;
     w = weights(n);
     m = n;
+    
+    h = (b-a)/m;
+    xi = a+(0:m)*h;
+    fi = fun(xi);
+    nfeval = nfeval + m+1;
+    If = 0;
+    i = 1;
+    k = 1;
+    while i <= m+1
+        If = If + w(k)*fi(i);
+        i = i+1;
+        k = k+1;
+        if k == n+2  && i <= m+1
+            k = 1;
+            i = i-1;
+        end
+    end
+    If = If * (b-a)/m;
     while 1
         m = 2*m;
         h = (b-a)/m;
         xi = a+(0:m)*h;
-        if m == 2*n % prima volta
-            fi = fun(xi);
-            nfeval = nfeval + m+1;
-        else
-            fi = repelem(fi,2);
-            fi = fi(1:m+1);
-            fi(2:2:m) = fun(xi(2:2:m));
-            nfeval = nfeval + m/2;
-        end
+
+        fi = repelem(fi,2);
+        fi = fi(1:m+1);
+        fi(2:2:m) = fun(xi(2:2:m));
+        nfeval = nfeval + m/2;
 
         mu = 2-mod(n,2);
-
-        Ieven = 0;
-        i = 1;
-        k = 1;
-        while i <= m+1
-            Ieven = Ieven + w(k)*fi(i);
-            i = i+2;
-            k = k+1;
-            if k == n+2
-                k = 1;
-                i = i-2;
-            end
-        end
-        Ieven = Ieven * (b-a)/(m/2);
         
-        If = 0;
+        If2 = 0;
         i = 1;
         k = 1;
         while i <= m+1
-            If = If + w(k)*fi(i);
+            If2 = If2 + w(k)*fi(i);
             i = i+1;
             k = k+1;
-            if k == n+2
+            if k == n+2  && i <= m+1
                 k = 1;
                 i = i-1;
             end
         end
-        If = If * (b-a)/m;
+        If2 = If2 * (b-a)/m;
 
-        err = abs(Ieven-If)/(2^(n+mu)-1);
+        err = abs(If2-If)/(2^(n+mu)-1);
         if err <= tol,break;end
+
+        If = If2;
     end
 end

@@ -117,7 +117,7 @@ end
 function e = interpolErrSpline0(x,y,xq,f)
 %     e = 1 + lebesgue(x,xq);
 %     e = e * norm(abs(feval(f,xq)-spline0(x,y,xq)),"inf");
-%     plot(x,y,xq,spline02(x,y,xq),xq,spline(x,y,xq));
+%     plot(x,y,xq,spline0(x,y,xq),xq,spline(x,y,xq));
     e = norm(abs(feval(f,xq)-spline0(x,y,xq)),"inf");
 end
 
