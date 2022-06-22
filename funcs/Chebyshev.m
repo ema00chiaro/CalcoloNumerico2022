@@ -1,4 +1,4 @@
-function xc = Chebyshev(a,b,n)
+function xc = chebyshev(a,b,n)
     if b <= a, error("a deve essere minore di b");end
     if n <= 0, error("il numero ascisse richieste" + ...
             " deve essere positivo");end
